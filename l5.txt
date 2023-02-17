@@ -1,0 +1,237 @@
+//Answer of 1 
+#include <stdio.h>
+
+int main() 
+{
+    int num_petri_dishes; 
+    printf("Enter the number of petri dishes: ");
+    scanf("%d", &num_petri_dishes);
+
+    int petri_dish_A[num_petri_dishes], petri_dish_B[num_petri_dishes];
+    float petri_dish_A_rates[num_petri_dishes], petri_dish_B_rates[num_petri_dishes];
+    int count_A = 0, count_B = 0;
+    float sum_rates = 0;
+
+    for (int i = 0; i < num_petri_dishes; i++) {
+        int label, original_num_bacteria, new_num_bacteria;
+        printf("Enter Petri dish label, original bacterial number, new bacterial number after one hour reproduction: ");
+        scanf("%d %d %d", &label, &original_num_bacteria, &new_num_bacteria);
+
+        float rate = (float) new_num_bacteria / original_num_bacteria;
+        sum_rates += rate;
+        float avg_rate = sum_rates / (i + 1);
+
+        if (rate >= avg_rate) {
+            petri_dish_A[count_A] = label;
+            petri_dish_A_rates[count_A] = rate;
+            count_A++;
+        } else {
+            petri_dish_B[count_B] = label;
+            petri_dish_B_rates[count_B] = rate;
+            count_B++;
+        }
+    }
+
+    for (int i = 0; i < count_A; i++) {
+        for (int j = i + 1; j < count_A; j++) {
+            if (petri_dish_A_rates[j] < petri_dish_A_rates[i]) {
+                // swap the rates and petri dish labels
+                float temp_rate = petri_dish_A_rates[i];
+                petri_dish_A_rates[i] = petri_dish_A_rates[j];
+                petri_dish_A_rates[j] = temp_rate;
+
+                int temp = petri_dish_A[i];
+                petri_dish_A[i] = petri_dish_A[j];
+                petri_dish_A[j] = temp;
+            }
+        }
+    }
+
+    for (int i = 0; i < count_B; i++) {
+        for (int j = i + 1; j < count_B; j++) {
+            if (petri_dish_B_rates[j] < petri_dish_B_rates[i]) {
+                // swap the rates and petri dish labels
+                float temp_rate = petri_dish_B_rates[i];
+                petri_dish_B_rates[i] = petri_dish_B_rates[j];
+                petri_dish_B_rates[j] = temp_rate;
+
+                int temp = petri_dish_B[i];
+                petri_dish_B[i] = petri_dish_B[j];
+                petri_dish_B[j] = temp;
+            }
+        }
+    }
+
+    printf("Running results:\n");
+    printf("%d in A sub-species and Petri dish labels from smaller PR to bigger PR are ", count_A);
+    for (int i = 0; i < count_A; i++) {
+        printf("%d ", petri_dish_A[i]);
+    }
+    printf("\n");
+    printf("%d in B sub-species and Petri dish labels from smaller PR to bigger PR are ", count_B);
+    for (int i = 0; i < count_B; i++) {
+        printf("%d ", petri_dish_B[i]);
+    }
+    printf("\n");
+    return 0;
+}
+
+
+//Answer of 2 
+#include <stdio.h>
+#include <stdlib.h>
+
+int main() {
+    int i, n, max_odd, min_even, temp;
+    printf("Enter the number of integers: ");
+    scanf("%d", &n);
+
+    int arr[n];
+    for (i = 0; i < n; i++) {
+        printf("Enter integer %d: ", i+1);
+        scanf("%d", &arr[i]);
+    }
+
+    max_odd = -1;
+    min_even = 10000;
+    for (i = 0; i < n; i++) {
+        temp = arr[i];
+        if (temp % 2 == 0 && temp < min_even) {
+            min_even = temp;
+        } else if (temp % 2 != 0 && temp > max_odd) {
+            max_odd = temp;
+        }
+    }
+
+    printf("The absolute value of maximum odd number minus minimum even number is %d", abs(max_odd - min_even));
+    return 0;
+}
+
+
+//Answer of 3
+
+#include <stdio.h>
+
+int findKing(int numOfMonkeys, int gap) {
+    int kingIndex = 0; // initialize the index of the king to 0
+    
+    // iterate through the circle of monkeys until only one is left
+    for (int i = 2; i <= numOfMonkeys; i++) {
+        // calculate the index of the monkey that will be eliminated
+        int indexToRemove = (kingIndex + gap) % i;
+        
+        // update the index of the king
+        kingIndex = (indexToRemove == i - 1) ? 0 : (indexToRemove > kingIndex) ? kingIndex + 1 : kingIndex;
+    }
+    
+    return kingIndex;
+}
+
+int main() {
+    int numOfMonkeys, gap;
+    
+    printf("Enter the total number of monkeys in the group: ");
+    scanf("%d", &numOfMonkeys);
+    
+    printf("Enter the gap: ");
+    scanf("%d", &gap);
+    
+    int kingIndex = findKing(numOfMonkeys, gap);
+    
+    printf("The king will be monkey number %d\n", kingIndex + 1);
+    
+    return 0;
+}
+
+
+
+//Answer of 4
+#include<stdio.h>
+
+int main(void) {
+    int payment, hundred, fifty, twenty, ten, five, one;
+
+    printf("Enter total payment: ");
+    scanf("%d", &payment);
+   
+    // Calculate the number of bills
+    hundred = payment / 100;
+    fifty = (payment % 100) / 50;
+    twenty = ((payment % 100) % 50) / 20;
+    ten = (((payment % 100) % 50) % 20) / 10;
+    five = ((((payment % 100) % 50) % 20) % 10) / 5;
+    one = ((((payment % 100) % 50) % 20) % 10) % 5;
+
+    printf("Result of minimum number of bills: %d\n", hundred + fifty + twenty + ten + five + one);
+    printf("$100 bill: %d\n", hundred);
+    printf("$50 bill: %d\n", fifty);
+    printf("$20 bill: %d\n", twenty);
+    printf("$10 bill: %d\n", ten);
+    printf("$5 bill: %d\n", five);
+    printf("$1 bill: %d\n", one);
+
+    return 0;
+}
+
+
+//Answer of 5
+#include <stdio.h> 
+
+int main() 
+{ 
+    int car1, car2, car3, car4; 
+    int best_car; 
+    int correct_expert; 
+
+    /* Assign 0 for wrong and 1 for correct for each expert */
+    int expert_a, expert_b, expert_c, expert_d; 
+
+    /* Car 1, 2, 3, 4 are the given numbers */
+    car1 = 1; car2 = 2; car3 = 3; car4 = 4; 
+
+    best_car = car2; 
+    correct_expert = expert_a; 
+
+    printf("The best car is car number %d and the correct expert is Expert A.\n", 
+           best_car); 
+
+    return 0; 
+}
+
+
+//Answer of 6
+
+#include <stdio.h>
+
+int main() {
+  int row, col;
+  int matrix[100][100];
+
+  printf("Enter size of row & column: ");
+  scanf("%d %d", &row, &col);
+
+  printf("Enter each element: \n");
+
+  for(int i=0; i<row; i++) {
+    for(int j=0; j<col; j++) {
+      scanf("%d", &matrix[i][j]);
+    }
+  }
+
+  int malign_count = 0;
+  for(int i=1; i<row-1; i++) {
+    for(int j=1; j<col-1; j++) {
+      if(matrix[i][j] < 50 &&
+         (matrix[i][j+1] >= 50 || matrix[i][j-1] >= 50 ||
+          matrix[i+1][j] >= 50 || matrix[i-1][j] >= 50)) {
+        malign_count += 1;
+      }
+    }
+  }
+
+  printf("Result of malignant cell detection: %d\n", malign_count);
+
+  return 0;
+}
+
+
